@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Mr. & Miss Embakasi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ec4899;
+            --primary-dark: #db2777;
+            --secondary: #f9a8d4;
+            --light: #fdf2f8;
+            --dark: #831843;
+            --gray: #6b7280;
+            --light-gray: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: #111827;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .logo span {
+            color: var(--dark);
+        }
+        
+        .admin-nav {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .admin-nav a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .admin-nav a:hover, .admin-nav a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .admin-nav a i {
+            margin-right: 5px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        th {
+            background-color: var(--light);
+            color: var(--dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:hover {
+            background-color: var(--light);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge.pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge.approved {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge.rejected {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray);
+            color: var(--gray);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #059669;
+        }
+        
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .contestant-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(-20px);
+            transition: all 0.3s;
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 18px;
+            color: var(--dark);
+        }
+        
+        .modal-header .close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--gray);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .preview-photo {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .alert-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        
+        .reset-votes-btn {
+            background-color: #f59e0b;
+            color: white;
+        }
+        
+        .reset-votes-btn:hover {
+            background-color: #d97706;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .py-4 {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        
+        .text-gray-500 {
+            color: var(--gray);
+        }
+
+        /* Login Modal Styles */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        
+        .login-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .login-content h2 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form .form-control {
+            padding: 12px 15px;
+        }
+        
+        .login-form .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+        }
+        
+        .login-error {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .admin-nav {
+                gap: 10px;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .admin-nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .login-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Modal (shown by default) -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <h2>Admin Login</h2>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+                <div class="login-error" id="loginError">
+                    Invalid email or password. Please try again.
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Main Admin Panel (hidden until login) -->
+    <div id="adminPanel" style="display: none;">
+        <header>
+            <div class="container header-content">
+                <div class="logo">Mr. & Miss <span>Embakasi</span></div>
+                <nav class="admin-nav">
+                    <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="#"><i class="fas fa-users"></i> Contestants</a>
+                    <a href="#"><i class="fas fa-vote-yea"></i> Votes</a>
+                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </nav>
+            </div>
+        </header>
+        
+        <main class="container">
+            <h1>Admin Dashboard</h1>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Contestants</h3>
+                    <div class="value" id="totalContestants">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending Approvals</h3>
+                    <div class="value" id="pendingApprovals">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Votes</h3>
+                    <div class="value" id="totalVotes">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Votes Today</h3>
+                    <div class="value" id="votesToday">0</div>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="pending">Pending Approvals</div>
+                <div class="tab" data-tab="approved">Approved Contestants</div>
+                <div class="tab" data-tab="voting">Voting Controls</div>
+            </div>
+            
+            <div class="tab-content active" id="pending-tab">
+                <table id="pendingTable">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Contact</th>
+                            <th>Registered On</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Pending contestants will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="approved-tab">
+                <div class="alert alert-success">
+                    <i class="fas fa-info-circle"></i> These contestants are visible on the public voting page.
+                </div>
+                <table id="approvedTable">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Votes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Approved contestants will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="voting-tab">
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> Use these controls carefully. Changes here affect the live voting system.
+                </div>
+                
+                <div class="form-group">
+                    <button id="resetVotesBtn" class="btn reset-votes-btn">
+                        <i class="fas fa-sync-alt"></i> Reset All Votes to Zero
+                    </button>
+                    <button id="enableVotingBtn" class="btn btn-success">
+                        <i class="fas fa-toggle-on"></i> Enable Voting System
+                    </button>
+                    <button id="disableVotingBtn" class="btn btn-danger">
+                        <i class="fas fa-toggle-off"></i> Disable Voting System
+                    </button>
+                </div>
+                
+                <h3>Recent Votes</h3>
+                <table id="votesTable">
+                    <thead>
+                        <tr>
+                            <th>Contestant</th>
+                            <th>Votes</th>
+                            <th>Amount</th>
+                            <th>Phone</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Vote transactions will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        
+        <!-- Approval Modal -->
+        <div class="modal" id="approvalModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Review Contestant</h3>
+                    <button class="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <img id="modalContestantPhoto" class="preview-photo" src="" alt="Contestant Photo">
+                    </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="modalContestantName" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input type="text" id="modalContestantCategory" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="modalContestantPhone" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" id="modalContestantEmail" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Bio</label>
+                        <textarea id="modalContestantBio" class="form-control" rows="4" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Admin Notes</label>
+                        <textarea id="adminNotes" class="form-control" rows="3" placeholder="Add any notes for this contestant..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger reject-btn">Reject</button>
+                    <button class="btn btn-success approve-btn">Approve</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global state
+        const state = {
+            currentContestant: null,
+            pendingContestants: [],
+            approvedContestants: [],
+            voteTransactions: [],
+            votingEnabled: localStorage.getItem('votingEnabled') !== 'false',
+            isAuthenticated: localStorage.getItem('isAuthenticated') === 'true'
+        };
+        
+        // DOM Elements
+        const elements = {
+            loginModal: document.getElementById('loginModal'),
+            loginForm: document.getElementById('loginForm'),
+            loginEmail: document.getElementById('loginEmail'),
+            loginPassword: document.getElementById('loginPassword'),
+            loginError: document.getElementById('loginError'),
+            logoutBtn: document.getElementById('logoutBtn'),
+            adminPanel: document.getElementById('adminPanel'),
+            totalContestants: document.getElementById('totalContestants'),
+            pendingApprovals: document.getElementById('pendingApprovals'),
+            totalVotes: document.getElementById('totalVotes'),
+            votesToday: document.getElementById('votesToday'),
+            pendingTable: document.getElementById('pendingTable').querySelector('tbody'),
+            approvedTable: document.getElementById('approvedTable').querySelector('tbody'),
+            votesTable: document.getElementById('votesTable').querySelector('tbody'),
+            tabs: document.querySelectorAll('.tab'),
+            tabContents: document.querySelectorAll('.tab-content'),
+            approvalModal: document.getElementById('approvalModal'),
+            modalContestantPhoto: document.getElementById('modalContestantPhoto'),
+            modalContestantName: document.getElementById('modalContestantName'),
+            modalContestantCategory: document.getElementById('modalContestantCategory'),
+            modalContestantPhone: document.getElementById('modalContestantPhone'),
+            modalContestantEmail: document.getElementById('modalContestantEmail'),
+            modalContestantBio: document.getElementById('modalContestantBio'),
+            adminNotes: document.getElementById('adminNotes'),
+            resetVotesBtn: document.getElementById('resetVotesBtn'),
+            enableVotingBtn: document.getElementById('enableVotingBtn'),
+            disableVotingBtn: document.getElementById('disableVotingBtn')
+        };
+        
+        // Initialize sample data if none exists
+        function initializeSampleData() {
+            if (!localStorage.getItem('pendingContestants') && !localStorage.getItem('approvedContestants')) {
+                const samplePending = [
+                    {
+                        id: 1,
+                        name: "John Doe",
+                        category: "mr",
+                        phone: "254712345678",
+                        email: "john@example.com",
+                        photo: "https://randomuser.me/api/portraits/men/1.jpg",
+                        bio: "Aspiring Mr. Embakasi",
+                        registeredOn: new Date().toISOString().split('T')[0],
+                        status: "pending"
+                    },
+                    {
+                        id: 2,
+                        name: "Jane Smith",
+                        category: "miss",
+                        phone: "254712345679",
+                        email: "jane@example.com",
+                        photo: "https://randomuser.me/api/portraits/women/1.jpg",
+                        bio: "Aspiring Miss Embakasi",
+                        registeredOn: new Date().toISOString().split('T')[0],
+                        status: "pending"
+                    }
+                ];
+                
+                const sampleApproved = [
+                    {
+                        id: 3,
+                        name: "Mike Johnson",
+                        category: "mr",
+                        phone: "254712345680",
+                        email: "mike@example.com",
+                        photo: "https://randomuser.me/api/portraits/men/2.jpg",
+                        bio: "Current Mr. Embakasi",
+                        registeredOn: "2023-05-15",
+                        approvedOn: "2023-05-20",
+                        votes: 1250,
+                        status: "approved"
+                    },
+                    {
+                        id: 4,
+                        name: "Sarah Williams",
+                        category: "miss",
+                        phone: "254712345681",
+                        email: "sarah@example.com",
+                        photo: "https://randomuser.me/api/portraits/women/2.jpg",
+                        bio: "Current Miss Embakasi",
+                        registeredOn: "2023-05-15",
+                        approvedOn: "2023-05-20",
+                        votes: 980,
+                        status: "approved"
+                    }
+                ];
+                
+                const sampleVotes = [
+                    {
+                        contestantId: 3,
+                        contestantName: "Mike Johnson",
+                        votes: 10,
+                        amount: 100,
+                        phone: "254712345677",
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        contestantId: 4,
+                        contestantName: "Sarah Williams",
+                        votes: 5,
+                        amount: 50,
+                        phone: "254712345676",
+                        timestamp: new Date(Date.now() - 86400000).toISOString() // Yesterday
+                    }
+                ];
+                
+                localStorage.setItem('pendingContestants', JSON.stringify(samplePending));
+                localStorage.setItem('approvedContestants', JSON.stringify(sampleApproved));
+                localStorage.setItem('voteTransactions', JSON.stringify(sampleVotes));
+            }
+        }
+        
+        // Initialize the admin panel
+        function init() {
+            // Check authentication first
+            if (state.isAuthenticated) {
+                elements.loginModal.style.display = 'none';
+                elements.adminPanel.style.display = 'block';
+                initializeAdminPanel();
+            } else {
+                elements.loginModal.style.display = 'flex';
+                elements.adminPanel.style.display = 'none';
+            }
+            
+            setupAuthEventListeners();
+        }
+        
+        // Initialize the admin panel after authentication
+        function initializeAdminPanel() {
+            initializeSampleData();
+            loadData();
+            setupEventListeners();
+            updateStats();
+            renderPendingContestants();
+            renderApprovedContestants();
+            renderVoteTransactions();
+            updateVotingControls();
+        }
+        
+        // Load data from localStorage
+        function loadData() {
+            state.pendingContestants = JSON.parse(localStorage.getItem('pendingContestants')) || [];
+            state.approvedContestants = JSON.parse(localStorage.getItem('approvedContestants')) || [];
+            state.voteTransactions = JSON.parse(localStorage.getItem('voteTransactions')) || [];
+            state.votingEnabled = localStorage.getItem('votingEnabled') !== 'false';
+        }
+        
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('pendingContestants', JSON.stringify(state.pendingContestants));
+            localStorage.setItem('approvedContestants', JSON.stringify(state.approvedContestants));
+            localStorage.setItem('voteTransactions', JSON.stringify(state.voteTransactions));
+            localStorage.setItem('votingEnabled', state.votingEnabled);
+        }
+        
+        // Update statistics
+        function updateStats() {
+            elements.totalContestants.textContent = state.approvedContestants.length;
+            elements.pendingApprovals.textContent = state.pendingContestants.length;
+            
+            const totalVotes = state.approvedContestants.reduce((sum, contestant) => sum + (contestant.votes || 0), 0);
+            elements.totalVotes.textContent = totalVotes;
+            
+            const today = new Date().toISOString().split('T')[0];
+            const todayVotes = state.voteTransactions
+                .filter(tx => tx.timestamp.includes(today))
+                .reduce((sum, tx) => sum + tx.votes, 0);
+            elements.votesToday.textContent = todayVotes;
+        }
+        
+        // Render pending contestants
+        function renderPendingContestants() {
+            elements.pendingTable.innerHTML = '';
+            
+            if (state.pendingContestants.length === 0) {
+                elements.pendingTable.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-gray-500">
+                            No pending contestants for approval
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            state.pendingContestants.forEach(contestant => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <img src="${contestant.photo}" alt="${contestant.name}" class="contestant-photo">
+                    </td>
+                    <td>${contestant.name}</td>
+                    <td>${contestant.category === 'mr' ? 'Mr. Embakasi' : 'Miss Embakasi'}</td>
+                    <td>${contestant.phone}<br>${contestant.email || 'N/A'}</td>
+                    <td>${contestant.registeredOn}</td>
+                    <td><span class="badge pending">Pending</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary review-btn" data-id="${contestant.id}">
+                            <i class="fas fa-eye"></i> Review
+                        </button>
+                    </td>
+                `;
+                elements.pendingTable.appendChild(row);
+            });
+        }
+        
+        // Render approved contestants
+        function renderApprovedContestants() {
+            elements.approvedTable.innerHTML = '';
+            
+            if (state.approvedContestants.length === 0) {
+                elements.approvedTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-gray-500">
+                            No approved contestants yet
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Sort by votes (descending)
+            const sortedContestants = [...state.approvedContestants].sort((a, b) => (b.votes || 0) - (a.votes || 0));
+            
+            sortedContestants.forEach(contestant => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <img src="${contestant.photo}" alt="${contestant.name}" class="contestant-photo">
+                    </td>
+                    <td>${contestant.name}</td>
+                    <td>${contestant.category === 'mr' ? 'Mr. Embakasi' : 'Miss Embakasi'}</td>
+                    <td>${contestant.votes || 0}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline edit-btn" data-id="${contestant.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline delete-btn" data-id="${contestant.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                elements.approvedTable.appendChild(row);
+            });
+        }
+        
+        // Render vote transactions
+        function renderVoteTransactions() {
+            elements.votesTable.innerHTML = '';
+            
+            if (state.voteTransactions.length === 0) {
+                elements.votesTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-gray-500">
+                            No vote transactions yet
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Sort by timestamp (descending)
+            const sortedTransactions = [...state.voteTransactions].sort((a, b) => 
+                new Date(b.timestamp) - new Date(a.timestamp));
+            
+            sortedTransactions.slice(0, 50).forEach(tx => {
+                const date = new Date(tx.timestamp);
+                const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const dateString = date.toLocaleDateString();
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${tx.contestantName}</td>
+                    <td>${tx.votes}</td>
+                    <td>${tx.amount} KSH</td>
+                    <td>${tx.phone}</td>
+                    <td>${dateString} ${timeString}</td>
+                `;
+                elements.votesTable.appendChild(row);
+            });
+        }
+        
+        // Setup authentication event listeners
+        function setupAuthEventListeners() {
+            // Login form submission
+            elements.loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = elements.loginEmail.value.trim();
+                const password = elements.loginPassword.value.trim();
+                
+                // Check credentials (adminmme@yahoo.com / mme@yahoo)
+                if (email === 'adminmme@yahoo.com' && password === 'mme@yahoo') {
+                    // Successful login
+                    state.isAuthenticated = true;
+                    localStorage.setItem('isAuthenticated', 'true');
+                    elements.loginError.style.display = 'none';
+                    elements.loginModal.style.display = 'none';
+                    elements.adminPanel.style.display = 'block';
+                    initializeAdminPanel();
+                } else {
+                    // Failed login
+                    elements.loginError.style.display = 'block';
+                }
+            });
+            
+            // Logout button
+            elements.logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    state.isAuthenticated = false;
+                    localStorage.removeItem('isAuthenticated');
+                    elements.loginEmail.value = '';
+                    elements.loginPassword.value = '';
+                    elements.loginError.style.display = 'none';
+                    elements.loginModal.style.display = 'flex';
+                    elements.adminPanel.style.display = 'none';
+                }
+            });
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Tab switching
+            elements.tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    elements.tabs.forEach(t => t.classList.remove('active'));
+                    elements.tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+                });
+            });
+            
+            // Review button clicks (delegated)
+            elements.pendingTable.addEventListener('click', (e) => {
+                if (e.target.closest('.review-btn')) {
+                    const button = e.target.closest('.review-btn');
+                    const contestantId = parseInt(button.dataset.id);
+                    openApprovalModal(contestantId);
+                }
+            });
+            
+            // Edit/Delete button clicks (delegated)
+            elements.approvedTable.addEventListener('click', (e) => {
+                if (e.target.closest('.edit-btn')) {
+                    const button = e.target.closest('.edit-btn');
+                    const contestantId = parseInt(button.dataset.id);
+                    editContestant(contestantId);
+                }
+                
+                if (e.target.closest('.delete-btn')) {
+                    const button = e.target.closest('.delete-btn');
+                    const contestantId = parseInt(button.dataset.id);
+                    deleteContestant(contestantId);
+                }
+            });
+            
+            // Modal close button
+            document.querySelector('#approvalModal .close').addEventListener('click', closeApprovalModal);
+            
+            // Approve/Reject buttons
+            document.querySelector('.approve-btn').addEventListener('click', approveContestant);
+            document.querySelector('.reject-btn').addEventListener('click', rejectContestant);
+            
+            // Voting controls
+            elements.resetVotesBtn.addEventListener('click', resetAllVotes);
+            elements.enableVotingBtn.addEventListener('click', enableVoting);
+            elements.disableVotingBtn.addEventListener('click', disableVoting);
+            
+            // Close modal when clicking outside
+            document.addEventListener('click', (e) => {
+                if (e.target === elements.approvalModal) {
+                    closeApprovalModal();
+                }
+            });
+        }
+        
+        // Open approval modal
+        function openApprovalModal(contestantId) {
+            state.currentContestant = state.pendingContestants.find(c => c.id === contestantId);
+            
+            if (!state.currentContestant) return;
+            
+            elements.modalContestantPhoto.src = state.currentContestant.photo;
+            elements.modalContestantPhoto.style.display = 'block';
+            elements.modalContestantName.value = state.currentContestant.name;
+            elements.modalContestantCategory.value = state.currentContestant.category === 'mr' ? 'Mr. Embakasi' : 'Miss Embakasi';
+            elements.modalContestantPhone.value = state.currentContestant.phone;
+            elements.modalContestantEmail.value = state.currentContestant.email || 'N/A';
+            elements.modalContestantBio.value = state.currentContestant.bio || 'No bio provided';
+            elements.adminNotes.value = '';
+            
+            elements.approvalModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close approval modal
+        function closeApprovalModal() {
+            elements.approvalModal.classList.remove('active');
+            document.body.style.overflow = '';
+            state.currentContestant = null;
+        }
+        
+        // Approve contestant
+        function approveContestant() {
+            if (!state.currentContestant) return;
+            
+            // Add to approved contestants
+            const approvedContestant = {
+                ...state.currentContestant,
+                votes: 0,
+                status: 'approved',
+                approvedOn: new Date().toISOString().split('T')[0],
+                adminNotes: elements.adminNotes.value
+            };
+            
+            state.approvedContestants.push(approvedContestant);
+            
+            // Remove from pending
+            state.pendingContestants = state.pendingContestants.filter(c => c.id !== state.currentContestant.id);
+            
+            // Save and update UI
+            saveData();
+            closeApprovalModal();
+            renderPendingContestants();
+            renderApprovedContestants();
+            updateStats();
+            
+            alert(`Contestant ${state.currentContestant.name} has been approved and is now visible on the public page.`);
+        }
+        
+        // Reject contestant
+        function rejectContestant() {
+            if (!state.currentContestant) return;
+            
+            if (!confirm(`Are you sure you want to reject ${state.currentContestant.name}? This action cannot be undone.`)) {
+                return;
+            }
+            
+            // Remove from pending
+            state.pendingContestants = state.pendingContestants.filter(c => c.id !== state.currentContestant.id);
+            
+            // Save and update UI
+            saveData();
+            closeApprovalModal();
+            renderPendingContestants();
+            updateStats();
+            
+            alert(`Contestant ${state.currentContestant.name} has been rejected.`);
+        }
+        
+        // Edit contestant
+        function editContestant(contestantId) {
+            alert('Edit functionality would be implemented here');
+        }
+        
+        // Delete contestant
+        function deleteContestant(contestantId) {
+            const contestant = state.approvedContestants.find(c => c.id === contestantId);
+            if (!contestant) return;
+            
+            if (!confirm(`Are you sure you want to delete ${contestant.name}? This will also remove all their votes.`)) {
+                return;
+            }
+            
+            state.approvedContestants = state.approvedContestants.filter(c => c.id !== contestantId);
+            
+            // Remove vote transactions for this contestant
+            state.voteTransactions = state.voteTransactions.filter(tx => tx.contestantId !== contestantId);
+            
+            // Save and update UI
+            saveData();
+            renderApprovedContestants();
+            renderVoteTransactions();
+            updateStats();
+            
+            alert(`Contestant ${contestant.name} has been deleted.`);
+        }
+        
+        // Reset all votes to zero
+        function resetAllVotes() {
+            if (!confirm('Are you sure you want to reset ALL votes to zero? This action cannot be undone.')) {
+                return;
+            }
+            
+            state.approvedContestants.forEach(contestant => {
+                contestant.votes = 0;
+            });
+            
+            // Clear vote transactions
+            state.voteTransactions = [];
+            
+            // Save and update UI
+            saveData();
+            renderApprovedContestants();
+            renderVoteTransactions();
+            updateStats();
+            
+            alert('All votes have been reset to zero.');
+        }
+        
+        // Enable voting system
+        function enableVoting() {
+            state.votingEnabled = true;
+            saveData();
+            updateVotingControls();
+            alert('Voting system has been enabled. Users can now vote for contestants.');
+        }
+        
+        // Disable voting system
+        function disableVoting() {
+            if (!confirm('Are you sure you want to disable the voting system? Users will not be able to vote until you enable it again.')) {
+                return;
+            }
+            
+            state.votingEnabled = false;
+            saveData();
+            updateVotingControls();
+            alert('Voting system has been disabled. Users cannot vote until you enable it again.');
+        }
+        
+        // Update voting control buttons
+        function updateVotingControls() {
+            if (state.votingEnabled) {
+                elements.enableVotingBtn.disabled = true;
+                elements.disableVotingBtn.disabled = false;
+            } else {
+                elements.enableVotingBtn.disabled = false;
+                elements.disableVotingBtn.disabled = true;
+            }
+        }
+        
+        // Initialize the admin panel when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <title>About - Mr. & Miss Embakasi</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="relative">
+    <!-- Top Navigation Bar -->
+    <header class="top-bar flex items-center justify-between">
+        <!-- Logo and Title -->
+        <div class="flex items-center space-x-2">
+            <img src="images/main thumbnail.jpg" alt="Logo" class="w-8 h-8 rounded-full" loading="lazy">
+            <h1 class="text-white text-lg font-bold whitespace-nowrap">Mr. & Miss Embakasi</h1>
+        </div>
+
+        <!-- Navigation Links (hidden on mobile) -->
+        <nav class="hidden md:flex space-x-4">
+            <a href="index.html" class="text-white hover:text-pink-200 transition">Home</a>
+            <a href="#about" class="text-white hover:text-pink-200 transition">About</a>
+            <a href="support.html" class="text-white hover:text-pink-200 transition">Support</a>
+            <a href="contact.html" class="text-white hover:text-pink-200 transition">Contact</a>
+        </nav>
+
+        <!-- Register Button and Time -->
+        <div class="flex items-center space-x-3">
+            <button id="registerBtn" class="bg-white text-pink-600 px-3 py-1 rounded-full text-sm font-medium hover:bg-gray-100 transition whitespace-nowrap">
+                <i class="fas fa-user-plus mr-1"></i>Register
+            </button>
+            <div class="text-white text-sm hidden sm:flex items-center">
+                <i class="fas fa-clock mr-1"></i>
+                <span id="currentTime"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="pt-32 pb-20 px-4 sm:pt-32">
+        <!-- Hero Section -->
+        <section class="hero-section mb-16" data-aos="fade-up">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-pink-600 mb-4">About Mr. & Miss Embakasi</h1>
+                <p class="text-xl text-gray-700 mb-8">Celebrating Talent, Beauty, and Community Spirit</p>
+                <div class="w-24 h-1 bg-pink-500 mx-auto"></div>
+            </div>
+        </section>
+
+        <!-- About Content -->
+        <div class="max-w-6xl mx-auto">
+            <!-- Mission Section -->
+            <section class="mb-16" data-aos="fade-right">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87" alt="Mission" class="rounded-lg shadow-lg w-full h-auto">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h2 class="text-3xl font-bold text-pink-600 mb-4">Our Mission</h2>
+                        <p class="text-gray-700 mb-4">Mr. & Miss Embakasi is dedicated to showcasing the vibrant talent and beauty within the Embakasi community. Our mission is to:</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-pink-500 mt-1 mr-2"></i>
+                                <span>Empower young men and women to showcase their talents and leadership qualities</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-pink-500 mt-1 mr-2"></i>
+                                <span>Promote community development through charitable initiatives</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-pink-500 mt-1 mr-2"></i>
+                                <span>Celebrate the diversity and culture of Embakasi</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-pink-500 mt-1 mr-2"></i>
+                                <span>Provide a platform for personal and professional growth</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section class="mb-16 bg-pink-50 p-8 rounded-xl" data-aos="fade-left">
+                <h2 class="text-3xl font-bold text-pink-600 mb-6 text-center">Our History</h2>
+                <div class="timeline relative max-w-3xl mx-auto">
+                    <div class="timeline-item mb-8" data-aos="fade-up">
+                        <div class="timeline-dot absolute w-4 h-4 rounded-full bg-pink-500 border-4 border-white"></div>
+                        <div class="timeline-content ml-8 pl-4">
+                            <h3 class="text-xl font-semibold text-gray-800">2018 - The Beginning</h3>
+                            <p class="text-gray-600">Founded by a group of community leaders, the first Mr. & Miss Embakasi competition was held with just 20 contestants.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item mb-8" data-aos="fade-up" data-aos-delay="100">
+                        <div class="timeline-dot absolute w-4 h-4 rounded-full bg-pink-500 border-4 border-white"></div>
+                        <div class="timeline-content ml-8 pl-4">
+                            <h3 class="text-xl font-semibold text-gray-800">2020 - Going Digital</h3>
+                            <p class="text-gray-600">Launched our online voting platform, allowing the entire community to participate in selecting their favorites.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item mb-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="timeline-dot absolute w-4 h-4 rounded-full bg-pink-500 border-4 border-white"></div>
+                        <div class="timeline-content ml-8 pl-4">
+                            <h3 class="text-xl font-semibold text-gray-800">2022 - Charity Focus</h3>
+                            <p class="text-gray-600">Introduced charity initiatives, with winners leading community projects that impacted over 5,000 residents.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                        <div class="timeline-dot absolute w-4 h-4 rounded-full bg-pink-500 border-4 border-white"></div>
+                        <div class="timeline-content ml-8 pl-4">
+                            <h3 class="text-xl font-semibold text-gray-800">2025 - Bigger Than Ever</h3>
+                            <p class="text-gray-600">Now with over 200 contestants annually and a grand finale attended by thousands at Embakasi Stadium.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="mb-16 bg-gray-50 p-8 rounded-xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-pink-600 mb-8 text-center">Frequently Asked Questions</h2>
+                <div class="space-y-4 max-w-3xl mx-auto">
+                    <div class="faq-item border-b border-gray-200 pb-4">
+                        <button class="faq-question flex justify-between items-center w-full text-left font-semibold text-gray-800">
+                            <span>Who can participate in Mr. & Miss Embakasi?</span>
+                            <i class="fas fa-chevron-down text-pink-500"></i>
+                        </button>
+                        <div class="faq-answer mt-2 text-gray-600 hidden">
+                            The competition is open to all residents of Embakasi aged 18-30. Contestants must provide proof of residence and a valid ID. Both men and women can participate in their respective categories.
+                        </div>
+                    </div>
+                    <div class="faq-item border-b border-gray-200 pb-4">
+                        <button class="faq-question flex justify-between items-center w-full text-left font-semibold text-gray-800">
+                            <span>How does the voting process work?</span>
+                            <i class="fas fa-chevron-down text-pink-500"></i>
+                        </button>
+                        <div class="faq-answer mt-2 text-gray-600 hidden">
+                            Voting is done through our secure online platform. Each vote costs 20 KSH via M-Pesa. You can vote for multiple contestants, but only once per contestant per day. The voting period runs for 4 weeks leading up to the grand finale.
+                        </div>
+                    </div>
+                    <div class="faq-item border-b border-gray-200 pb-4">
+                        <button class="faq-question flex justify-between items-center w-full text-left font-semibold text-gray-800">
+                            <span>What are the prizes for winners?</span>
+                            <i class="fas fa-chevron-down text-pink-500"></i>
+                        </button>
+                        <div class="faq-answer mt-2 text-gray-600 hidden">
+                            Winners receive cash prizes, modeling contracts, brand ambassador opportunities, and a chance to lead community development projects. The exact prizes vary each year but are always substantial and career-changing.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question flex justify-between items-center w-full text-left font-semibold text-gray-800">
+                            <span>How are the funds used?</span>
+                            <i class="fas fa-chevron-down text-pink-500"></i>
+                        </button>
+                        <div class="faq-answer mt-2 text-gray-600 hidden">
+                            60% of proceeds go to organizing the event and prizes, 30% supports community projects in Embakasi, and 10% covers administrative costs. We publish annual financial reports for transparency.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- News Ticker Footer -->
+    <div class="news-ticker">
+        <div class="ticker-content">
+            <span class="inline-block px-4">
+                <i class="fas fa-user-plus text-green-500"></i> Registration is Free!!!!, 
+                <i class="fas fa-calendar-check text-blue-500"></i> Registration is now open, 
+                <i class="fas fa-phone-alt text-purple-500"></i> contact Organizers on : 0719561365 for more information  
+                <i class="fas fa-vote-yea text-red-500"></i> Voting is opening soon! 
+                <i class="fas fa-money-bill-wave text-green-600"></i> Each vote costs 20 KSH via M-Pesa
+            </span>
+            <span class="inline-block px-4">
+                <i class="fas fa-trophy text-yellow-500"></i> Grand finale on December 31, 2025 at Embakasi
+            </span>
+            <span class="inline-block px-4">
+                <i class="fas fa-edit text-blue-600"></i> Register as a contestant today for a chance to win 
+                <i class="fas fa-gift text-pink-500"></i> amazing prizes!
+            </span>
+        </div>
+    </div>
+
+    <!-- Registration Modal (Same as index.html) -->
+    <div id="registrationModal" class="modal">
+        <!-- ... same registration modal content from index.html ... -->
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Modal functionality (same as index.html)
+        const registerBtn = document.getElementById('registerBtn');
+        const registrationModal = document.getElementById('registrationModal');
+        
+        registerBtn.addEventListener('click', () => {
+            registrationModal.classList.add('active');
+        });
+        
+        document.getElementById('closeRegisterModal').addEventListener('click', () => {
+            registrationModal.classList.remove('active');
+        });
+    </script>
+</body>
+</html>

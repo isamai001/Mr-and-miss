@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <title>Support - Mr. & Miss Embakasi</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="relative">
+    <!-- Top Navigation Bar -->
+    <header class="top-bar flex items-center justify-between">
+        <!-- Logo and Title -->
+        <div class="flex items-center space-x-2">
+            <img src="images/main thumbnail.jpg" alt="Logo" class="w-8 h-8 rounded-full" loading="lazy">
+            <h1 class="text-white text-lg font-bold whitespace-nowrap">Mr. & Miss Embakasi</h1>
+        </div>
+
+        <!-- Navigation Links (hidden on mobile) -->
+        <nav class="hidden md:flex space-x-4">
+            <a href="index.html" class="text-white hover:text-pink-200 transition">Home</a>
+            <a href="about.html" class="text-white hover:text-pink-200 transition">About</a>
+            <a href="#support" class="text-white hover:text-pink-200 transition">Support</a>
+            <a href="contact.html" class="text-white hover:text-pink-200 transition">Contact</a>
+        </nav>
+
+        <!-- Register Button and Time -->
+        <div class="flex items-center space-x-3">
+            <button id="registerBtn" class="bg-white text-pink-600 px-3 py-1 rounded-full text-sm font-medium hover:bg-gray-100 transition whitespace-nowrap">
+                <i class="fas fa-user-plus mr-1"></i>Register
+            </button>
+            <div class="text-white text-sm hidden sm:flex items-center">
+                <i class="fas fa-clock mr-1"></i>
+                <span id="currentTime"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="pt-32 pb-20 px-4 sm:pt-32">
+        <!-- Hero Section -->
+        <section class="hero-section mb-16">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-pink-600 mb-4">Support Our Initiative</h1>
+                <p class="text-xl text-gray-700 mb-8">Your contribution helps us empower youth and develop our community</p>
+                <div class="w-24 h-1 bg-pink-500 mx-auto"></div>
+            </div>
+        </section>
+
+        <!-- Support Options -->
+        <div class="max-w-6xl mx-auto">
+            <!-- Direct M-Pesa Payment -->
+            <section class="mb-16 bg-white p-8 rounded-xl shadow-md">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="md:w-1/2">
+                        <div class="bg-pink-100 p-6 rounded-lg">
+                            <div class="text-center mb-6">
+                                <div class="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-3">
+                                    <i class="fas fa-money-bill-wave text-3xl text-green-600"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-pink-600">Direct M-Pesa Donation</h2>
+                                <p class="text-gray-600">Use our Paybill or Till Number to support</p>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                    <h3 class="font-semibold text-gray-800 mb-2">Paybill Number</h3>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-600">400200</span>
+                                        <button class="copy-btn bg-pink-500 text-white px-3 py-1 rounded text-sm hover:bg-pink-600" data-text="123456">
+                                            <i class="fas fa-copy mr-1"></i>Copy
+                                        </button>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">Account: 100296</p>
+                                </div>
+
+                                <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                    <h3 class="font-semibold text-gray-800 mb-2">Account Number</h3>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-600">1000296</span>
+                                        <button class="copy-btn bg-pink-500 text-white px-3 py-1 rounded text-sm hover:bg-pink-600" data-text="987654">
+                                            <i class="fas fa-copy mr-1"></i>Copy
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <h2 class="text-2xl font-bold text-pink-600 mb-4">How to Donate via M-Pesa</h2>
+                        <ol class="space-y-3 list-decimal list-inside">
+                            <li class="text-gray-700">Go to M-Pesa on your phone</li>
+                            <li class="text-gray-700">Select <span class="font-semibold">Lipa Na M-Pesa</span></li>
+                            <li class="text-gray-700">Choose <span class="font-semibold">Paybill</span>  <span class="font-semibold"></span></li>
+                            <li class="text-gray-700">Enter the Paybill  as shown</li>
+                            <li class="text-gray-700">Enter Account Name: <span class="font-semibold">1000296</span></li>
+                            <li class="text-gray-700">Enter the amount you wish to donate</li>
+                            <li class="text-gray-700">Enter your M-Pesa PIN and confirm</li>
+                        </ol>
+                        <div class="mt-6 bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                            <p class="text-yellow-700"><i class="fas fa-info-circle mr-2"></i>You will receive a confirmation message from M-Pesa with your transaction details.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 
+            //here <section class="mb-16 bg-pink-50 p-8 rounded-xl">
+                <div class="max-w-3xl mx-auto">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-mobile-alt text-2xl text-green-600"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-pink-600">Instant Donation via STK Push</h2>
+                        <p class="text-gray-600">We'll send a payment request directly to your phone</p>
+                    </div>
+
+                    <form id="donationForm" class="space-y-4">
+                        <div>
+                            <label for="donorName" class="block text-gray-700 mb-1">Your Name</label>
+                            <input type="text" id="donorName" name="donorName" required 
+                                   class="form-input w-full">
+                        </div>
+
+                        <div>
+                            <label for="donorPhone" class="block text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" id="donorPhone" name="donorPhone" required 
+                                   class="form-input w-full" placeholder="254712345678">
+                        </div>
+
+                        <div>
+                            <label for="donationAmount" class="block text-gray-700 mb-1">Amount (KES)</label>
+                            <input type="number" id="donationAmount" name="donationAmount" min="10" required 
+                                   class="form-input w-full" placeholder="100">
+                        </div>
+
+                        <div>
+                            <label for="donationMessage" class="block text-gray-700 mb-1">Message (Optional)</label>
+                            <textarea id="donationMessage" name="donationMessage" rows="2"
+                                      class="form-input w-full" placeholder="Your message or purpose of donation"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition">
+                            <i class="fas fa-paper-plane mr-2"></i> Send Donation Request
+                        </button>
+                    </form>here//STK Push Donation -->
+
+                    <!-- STK Push Processing (hidden initially) -->
+                    <div id="stkProcessing" class="hidden mt-8 text-center">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-pink-100 flex items-center justify-center mb-3">
+                            <i class="fas fa-spinner fa-spin text-3xl text-pink-500"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800">Processing Your Donation</h3>
+                        <p class="text-gray-600">Please check your phone for an M-Pesa STK push notification</p>
+                        <div class="mt-4 bg-gray-100 p-4 rounded-lg max-w-md mx-auto">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Amount:</span>
+                                <span class="font-bold" id="processingDonationAmount"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">Phone:</span>
+                                <span class="font-bold" id="processingDonationPhone"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STK Push Success (hidden initially) -->
+                    <div id="stkSuccess" class="hidden mt-8 text-center">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-3">
+                            <i class="fas fa-check-circle text-3xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800">Donation Successful!</h3>
+                        <p class="text-gray-600 mb-4">Thank you for your generous support</p>
+                        <div class="mt-4 bg-gray-100 p-4 rounded-lg max-w-md mx-auto">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Transaction ID:</span>
+                                <span class="font-bold">MP9876543210</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">Amount:</span>
+                                <span class="font-bold" id="successDonationAmount"></span>
+                            </div>
+                        </div>
+                        <button id="closeDonationSuccess" class="mt-6 bg-pink-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-pink-600 transition">
+                            <i class="fas fa-check mr-2"></i> Done
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Other Support Options -->
+            <section class="mb-16">
+                <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center">Other Ways to Support</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-hand-holding-heart text-2xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Sponsorship</h3>
+                        <p class="text-gray-600 mb-4">Become an official sponsor and get brand visibility</p>
+                        <a href="contact.html" class="text-pink-500 font-medium hover:text-pink-600">Contact Us</a>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-tshirt text-2xl text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Merchandise</h3>
+                        <p class="text-gray-600 mb-4">Purchase our branded merchandise to show support</p>
+                        <a href="#" class="text-pink-500 font-medium hover:text-pink-600">Coming Soon</a>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="w-16 h-16 mx-auto bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-users text-2xl text-yellow-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Volunteer</h3>
+                        <p class="text-gray-600 mb-4">Join our team of volunteers for the event</p>
+                        <a href="contact.html" class="text-pink-500 font-medium hover:text-pink-600">Apply Now</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transparency Promise -->
+            <section class="bg-gray-50 p-8 rounded-xl">
+                <h2 class="text-2xl font-bold text-pink-600 mb-4 text-center">Our Transparency Promise</h2>
+                <p class="text-gray-700 mb-6 text-center max-w-3xl mx-auto">
+                    We are committed to full transparency in how we use your donations. All funds are used to:
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+                    <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                        <div class="w-12 h-12 mx-auto bg-pink-100 rounded-full flex items-center justify-center mb-2">
+                            <i class="fas fa-trophy text-pink-600"></i>
+                        </div>
+                        <p class="font-medium">Organize the competition</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                        <div class="w-12 h-12 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-2">
+                            <i class="fas fa-gift text-green-600"></i>
+                        </div>
+                        <p class="font-medium">Provide prizes for winners</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                        <div class="w-12 h-12 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-2">
+                            <i class="fas fa-hands-helping text-blue-600"></i>
+                        </div>
+                        <p class="font-medium">Fund community projects</p>
+                    </div>
+                </div>
+                <div class="mt-6 text-center">
+                    <a href="#" class="text-pink-500 font-medium hover:text-pink-600 inline-flex items-center">
+                        View Our Financial Reports <i class="fas fa-chevron-right ml-1"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- News Ticker Footer -->
+    <div class="news-ticker">
+        <div class="ticker-content">
+            <span class="inline-block px-4">
+                <i class="fas fa-user-plus text-green-500"></i> Registration is Free!!!!, 
+                <i class="fas fa-calendar-check text-blue-500"></i> Registration is now open, 
+                <i class="fas fa-phone-alt text-purple-500"></i> contact Organizers on : 0719561365 for more information  
+                <i class="fas fa-vote-yea text-red-500"></i> Voting is opening soon! 
+                <i class="fas fa-money-bill-wave text-green-600"></i> Each vote costs 20 KSH via M-Pesa
+            </span>
+            <span class="inline-block px-4">
+                <i class="fas fa-trophy text-yellow-500"></i> Grand finale on December 31, 2025 at Embakasi
+            </span>
+            <span class="inline-block px-4">
+                <i class="fas fa-edit text-blue-600"></i> Register as a contestant today for a chance to win 
+                <i class="fas fa-gift text-pink-500"></i> amazing prizes!
+            </span>
+        </div>
+    </div>
+
+    <!-- Registration Modal (Same as index.html) -->
+    <div id="registrationModal" class="modal">
+        <!-- ... same registration modal content from index.html ... -->
+    </div>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Copy buttons functionality
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const textToCopy = button.getAttribute('data-text');
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+        });
+
+        // STK Push Donation Form
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('donorPhone').value;
+            const amount = document.getElementById('donationAmount').value;
+            
+            // Show processing UI
+            document.getElementById('donationForm').classList.add('hidden');
+            document.getElementById('stkProcessing').classList.remove('hidden');
+            document.getElementById('processingDonationAmount').textContent = amount + ' KSH';
+            document.getElementById('processingDonationPhone').textContent = phone;
+            
+            // Here you would integrate with M-Pesa API
+            // This is where you would add your Daraja API credentials and make the STK push request
+            
+            /* 
+            Example integration point for M-Pesa Daraja API:
+            
+            const consumerKey = 'YOUR_CONSUMER_KEY'; // From Daraja portal
+            const consumerSecret = 'YOUR_CONSUMER_SECRET'; // From Daraja portal
+            const businessShortCode = 'YOUR_BUSINESS_SHORTCODE'; // Your paybill or till number
+            const passkey = 'YOUR_PASSKEY'; // From Daraja portal
+            const transactionType = 'CustomerPayBillOnline'; // Or 'CustomerBuyGoodsOnline' for till
+            
+            // First get access token
+            fetch('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + btoa(consumerKey + ':' + consumerSecret)
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const accessToken = data.access_token;
+                
+                // Now make STK push request
+                const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, -3);
+                const password = Buffer.from(businessShortCode + passkey + timestamp).toString('base64');
+                
+                const stkRequestBody = {
+                    BusinessShortCode: businessShortCode,
+                    Password: password,
+                    Timestamp: timestamp,
+                    TransactionType: transactionType,
+                    Amount: amount,
+                    PartyA: phone,
+                    PartyB: businessShortCode,
+                    PhoneNumber: phone,
+                    CallBackURL: 'YOUR_CALLBACK_URL', // Where to receive payment confirmation
+                    AccountReference: 'EMBKASI DONATION',
+                    TransactionDesc: 'Donation to Mr & Miss Embakasi'
+                };
+                
+                return fetch('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(stkRequestBody)
+                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle response
+                console.log(data);
+                if(data.ResponseCode === '0') {
+                    // Show success UI after 5 seconds (simulating payment processing)
+                    setTimeout(() => {
+                        document.getElementById('stkProcessing').classList.add('hidden');
+                        document.getElementById('stkSuccess').classList.remove('hidden');
+                        document.getElementById('successDonationAmount').textContent = amount + ' KSH';
+                    }, 5000);
+                } else {
+                    // Handle error
+                    alert('Payment request failed: ' + data.errorMessage);
+                    document.getElementById('stkProcessing').classList.add('hidden');
+                    document.getElementById('donationForm').classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while processing your request');
+                document.getElementById('stkProcessing').classList.add('hidden');
+                document.getElementById('donationForm').classList.remove('hidden');
+            });
+            */
+            
+            // For demo purposes, we'll simulate a successful payment after 5 seconds
+            setTimeout(() => {
+                document.getElementById('stkProcessing').classList.add('hidden');
+                document.getElementById('stkSuccess').classList.remove('hidden');
+                document.getElementById('successDonationAmount').textContent = amount + ' KSH';
+            }, 5000);
+        });
+        
+        // Close success message
+        document.getElementById('closeDonationSuccess').addEventListener('click', function() {
+            document.getElementById('stkSuccess').classList.add('hidden');
+            document.getElementById('donationForm').classList.remove('hidden');
+            document.getElementById('donationForm').reset();
+        });
+        
+        // Modal functionality (same as index.html)
+        const registerBtn = document.getElementById('registerBtn');
+        const registrationModal = document.getElementById('registrationModal');
+        
+        registerBtn.addEventListener('click', () => {
+            registrationModal.classList.add('active');
+        });
+        
+        document.getElementById('closeRegisterModal').addEventListener('click', () => {
+            registrationModal.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
