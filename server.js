@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
@@ -15,7 +18,10 @@ const {
   JWT_SECRET = 'your_jwt_secret',
   PORT = 3000,
   ADMIN_EMAIL = 'adminmme@yahoo.com',
-  ADMIN_PASSWORD = 'mme@yahoo'
+  ADMIN_PASSWORD = 'mme@yahoo',
+  UPLOAD_DIR = 'public/uploads',
+  MAX_FILE_SIZE = 2 * 1024 * 1024, // 2MB
+  ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/gif']
 } = process.env;
 
 // Security middleware
@@ -30,6 +36,40 @@ const apiLimiter = rateLimit({
 });
 app.use('/api/', apiLimiter);
 
+// Ensure upload directory exists
+if (!fs.existsSync(UPLOAD_DIR)) {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+}
+
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, UPLOAD_DIR);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    cb(null, 'contestant-' + uniqueSuffix + ext);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (ALLOWED_FILE_TYPES.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type. Only JPEG, PNG, and GIF images are allowed.'), false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: MAX_FILE_SIZE },
+  fileFilter: fileFilter
+});
+
+// Serve static files
+app.use(express.static('public'));
+
 // MongoDB connection
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -39,7 +79,7 @@ mongoose.connect(MONGO_URI, {
 }).then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Schemas
+// Admin Schema
 const adminSchema = new mongoose.Schema({
   email: { 
     type: String, 
@@ -54,11 +94,13 @@ const adminSchema = new mongoose.Schema({
   }
 });
 
+// Contestant Schema
 const contestantSchema = new mongoose.Schema({
   name: { 
     type: String, 
     required: true,
-    trim: true
+    trim: true,
+    minlength: 3
   },
   phone: { 
     type: String, 
@@ -100,6 +142,7 @@ const contestantSchema = new mongoose.Schema({
   approvedOn: Date
 }, { timestamps: true });
 
+// Vote Transaction Schema
 const voteTransactionSchema = new mongoose.Schema({
   contestantId: { 
     type: mongoose.Schema.Types.ObjectId, 
@@ -127,6 +170,7 @@ const voteTransactionSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+// Config Schema
 const configSchema = new mongoose.Schema({
   key: { 
     type: String, 
@@ -220,60 +264,108 @@ app.post('/api/auth/login',
   }
 );
 
-// Contestants
-app.get('/api/contestants', 
-  authenticateToken,
-  async (req, res) => {
-    try {
-      const { status } = req.query;
-      const query = status ? { status } : {};
-      const contestants = await Contestant.find(query).sort({ votes: -1 });
-      res.json(contestants);
-    } catch (error) {
-      console.error('Error fetching contestants:', error);
-      res.status(500).json({ error: 'Error fetching contestants' });
-    }
-  }
-);
-
-app.post('/api/contestants/register',
+// Contestant Registration with File Upload
+app.post('/api/contestants/register', 
+  upload.single('photo'),
   [
     body('name').trim().isLength({ min: 3 }),
     body('phone').matches(/^254[17]\d{8}$/),
     body('email').optional().isEmail(),
     body('category').isIn(['mr', 'miss']),
-    body('bio').optional().isLength({ max: 500 }),
-    body('photo').isString()
+    body('bio').optional().isLength({ max: 500 })
   ],
-  validateRequest,
   async (req, res) => {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // Remove uploaded file if validation fails
+      if (req.file) {
+        fs.unlinkSync(path.join(UPLOAD_DIR, req.file.filename));
+      }
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Check if file was uploaded
+    if (!req.file) {
+      return res.status(400).json({ error: 'Please upload a photo' });
+    }
+
     try {
+      const { name, phone, email, category, bio } = req.body;
+      
+      // Check for existing contestant
       const existingContestant = await Contestant.findOne({ 
-        $or: [
-          { phone: req.body.phone },
-          { email: req.body.email }
-        ]
+        $or: [{ phone }, { email }]
       });
 
       if (existingContestant) {
-        return res.status(400).json({ error: 'Contestant with this phone or email already exists' });
+        fs.unlinkSync(path.join(UPLOAD_DIR, req.file.filename));
+        return res.status(400).json({ 
+          error: 'Contestant with this phone or email already exists' 
+        });
       }
 
-      const contestant = new Contestant(req.body);
+      // Create photo URL
+      const photoUrl = '/uploads/' + req.file.filename;
+
+      // Create new contestant
+      const contestant = new Contestant({
+        name,
+        phone,
+        email,
+        category,
+        bio,
+        photo: photoUrl,
+        status: 'pending'
+      });
+
       await contestant.save();
+
       res.status(201).json({ 
         message: 'Registration successful',
-        contestantId: contestant._id
+        contestant: {
+          id: contestant._id,
+          name: contestant.name,
+          photo: photoUrl,
+          category: contestant.category
+        }
       });
+
     } catch (error) {
+      // Clean up file if error occurs
+      if (req.file) {
+        fs.unlinkSync(path.join(UPLOAD_DIR, req.file.filename));
+      }
       console.error('Registration error:', error);
-      res.status(400).json({ error: 'Error registering contestant' });
+      res.status(500).json({ error: 'Error registering contestant' });
     }
   }
 );
 
-app.patch('/api/contestants/:id/approve',
-  authenticateToken,
+// Get Contestants
+app.get('/api/contestants', async (req, res) => {
+  try {
+    const { status, category } = req.query;
+    const query = {};
+    
+    if (status) query.status = status;
+    if (category) query.category = category;
+    
+    const contestants = await Contestant.find(query)
+      .sort({ votes: -1, createdAt: -1 });
+      
+    res.json(contestants);
+  } catch (error) {
+    console.error('Error fetching contestants:', error);
+    res.status(500).json({ error: 'Error fetching contestants' });
+  }
+});
+
+// Admin-only endpoints
+app.use('/api/admin', authenticateToken);
+
+// Approve Contestant
+app.patch('/api/admin/contestants/:id/approve', 
   [
     body('adminNotes').optional().isString()
   ],
@@ -305,26 +397,64 @@ app.patch('/api/contestants/:id/approve',
   }
 );
 
-app.delete('/api/contestants/:id',
-  authenticateToken,
+// Reject Contestant
+app.patch('/api/admin/contestants/:id/reject', 
+  [
+    body('adminNotes').optional().isString()
+  ],
+  validateRequest,
   async (req, res) => {
     try {
-      const contestant = await Contestant.findByIdAndDelete(req.params.id);
-      
+      const contestant = await Contestant.findByIdAndUpdate(
+        req.params.id,
+        { 
+          status: 'rejected',
+          adminNotes: req.body.adminNotes
+        },
+        { new: true }
+      );
+
       if (!contestant) {
         return res.status(404).json({ error: 'Contestant not found' });
       }
 
-      await VoteTransaction.deleteMany({ contestantId: req.params.id });
-      res.json({ message: 'Contestant deleted' });
+      res.json({ 
+        message: 'Contestant rejected',
+        contestant
+      });
     } catch (error) {
-      console.error('Deletion error:', error);
-      res.status(400).json({ error: 'Error deleting contestant' });
+      console.error('Rejection error:', error);
+      res.status(400).json({ error: 'Error rejecting contestant' });
     }
   }
 );
 
-// Voting
+// Delete Contestant
+app.delete('/api/admin/contestants/:id', async (req, res) => {
+  try {
+    const contestant = await Contestant.findByIdAndDelete(req.params.id);
+    
+    if (!contestant) {
+      return res.status(404).json({ error: 'Contestant not found' });
+    }
+
+    // Delete associated photo
+    if (contestant.photo) {
+      const photoPath = path.join('public', contestant.photo);
+      if (fs.existsSync(photoPath)) {
+        fs.unlinkSync(photoPath);
+      }
+    }
+
+    await VoteTransaction.deleteMany({ contestantId: req.params.id });
+    res.json({ message: 'Contestant deleted' });
+  } catch (error) {
+    console.error('Deletion error:', error);
+    res.status(400).json({ error: 'Error deleting contestant' });
+  }
+});
+
+// Voting Endpoints
 app.post('/api/votes',
   [
     body('contestantId').isMongoId(),
@@ -348,7 +478,11 @@ app.post('/api/votes',
         return res.status(400).json({ error: 'Invalid contestant' });
       }
 
-      const transaction = new VoteTransaction(req.body);
+      const transaction = new VoteTransaction({
+        ...req.body,
+        contestantName: contestant.name
+      });
+
       await transaction.save();
       
       // Update contestant votes
@@ -357,7 +491,12 @@ app.post('/api/votes',
       
       res.status(201).json({ 
         message: 'Vote recorded',
-        transactionId: transaction._id
+        transactionId: transaction._id,
+        contestant: {
+          id: contestant._id,
+          name: contestant.name,
+          votes: contestant.votes
+        }
       });
     } catch (error) {
       console.error('Voting error:', error);
@@ -366,61 +505,42 @@ app.post('/api/votes',
   }
 );
 
-app.get('/api/votes',
-  authenticateToken,
-  async (req, res) => {
-    try {
-      const { limit = 50, page = 1 } = req.query;
-      const transactions = await VoteTransaction.find()
-        .sort({ createdAt: -1 })
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit))
-        .populate('contestantId', 'name photo category');
-        
-      const total = await VoteTransaction.countDocuments();
+// Get Vote Transactions
+app.get('/api/votes', async (req, res) => {
+  try {
+    const { limit = 50, page = 1 } = req.query;
+    const transactions = await VoteTransaction.find()
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit))
+      .populate('contestantId', 'name photo category');
       
-      res.json({
-        transactions,
-        total,
-        page: parseInt(page),
-        pages: Math.ceil(total / limit)
-      });
-    } catch (error) {
-      console.error('Error fetching votes:', error);
-      res.status(500).json({ error: 'Error fetching vote transactions' });
-    }
+    const total = await VoteTransaction.countDocuments();
+    
+    res.json({
+      transactions,
+      total,
+      page: parseInt(page),
+      pages: Math.ceil(total / limit)
+    });
+  } catch (error) {
+    console.error('Error fetching votes:', error);
+    res.status(500).json({ error: 'Error fetching vote transactions' });
   }
-);
+});
 
-app.delete('/api/votes/reset',
-  authenticateToken,
-  async (req, res) => {
-    try {
-      await Contestant.updateMany({}, { $set: { votes: 0 } });
-      await VoteTransaction.deleteMany({});
-      res.json({ message: 'All votes reset' });
-    } catch (error) {
-      console.error('Reset error:', error);
-      res.status(500).json({ error: 'Error resetting votes' });
-    }
+// Voting Configuration
+app.get('/api/config/voting-status', async (req, res) => {
+  try {
+    const config = await Config.findOne({ key: 'votingEnabled' });
+    res.json({ votingEnabled: config?.value ?? true });
+  } catch (error) {
+    console.error('Config error:', error);
+    res.status(500).json({ error: 'Error fetching voting status' });
   }
-);
+});
 
-// Configuration
-app.get('/api/config/voting-status',
-  async (req, res) => {
-    try {
-      const config = await Config.findOne({ key: 'votingEnabled' });
-      res.json({ votingEnabled: config?.value ?? true });
-    } catch (error) {
-      console.error('Config error:', error);
-      res.status(500).json({ error: 'Error fetching voting status' });
-    }
-  }
-);
-
-app.patch('/api/config/voting-status',
-  authenticateToken,
+app.patch('/api/admin/config/voting-status',
   [
     body('votingEnabled').isBoolean()
   ],
@@ -450,4 +570,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Admin email: ${ADMIN_EMAIL}`);
+  console.log(`Upload directory: ${UPLOAD_DIR}`);
 });
